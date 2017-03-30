@@ -1,0 +1,150 @@
+{% block head %}
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="static/style_ox.css" type="text/css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<script type="text/javascript"> 
+
+    function displayForm(c){ 
+
+        if(c.value == "1"){ 
+            document.getElementById("date1").style.display='block'; 
+			document.getElementById("o_submit").style.display='none';
+        }
+	   else if(c.value == "2"){
+			document.getElementById("date1").style.display='none'; 
+			document.getElementById("o_submit").style.display='block';
+        }		
+
+        else{
+
+            } 
+ 
+ }
+
+function validateForm(){
+  var op1 = document.getElementById("wallet_op");
+  var op2 = document.getElementById("product_op");
+  var op3 = document.getElementById("Transid_op");
+  var op4 = document.getElementById("saledatekey_op");
+  var op5 = document.getElementById("mdn_op");
+  if(op1.checked==false && op2.checked==false && op3.checked==false && op4.checked==false && op5.checked==false)
+  {
+        alert("Please input info!!");
+        return false; 
+  }
+  if(op1.checked==true && document.getElementById("wallet_id1").value==="")
+  {
+        alert("Please input info!!");
+        document.getElementById("wallet_id1").focus();
+        return false; 
+  }
+  if(op2.checked==true && document.getElementById("product").value==="")
+  {
+        alert("Please input info!!");
+        document.getElementById("product").focus();
+        return false; 
+  }
+  if(op3.checked==true && document.getElementById("Transid").value==="")
+  {
+        alert("Please input info!!");
+        document.getElementById("Transid").focus();
+        return false; 
+  }
+  if(op4.checked==true && document.getElementById("saledatekey").value==="")
+  {
+        alert("Please input info!!");
+        document.getElementById("saledatekey").focus();
+        return false; 
+  }
+  if(op5.checked==true && document.getElementById("mdn").value==="")
+  {
+        alert("Please input info!!");
+        document.getElementById("mdn").focus();
+        return false; 
+  }
+return true;
+}
+
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div><img src="static/images/oxigen-wallet1.gif" alt="logo" style="width:150px;height:50px;float:right;"/></div><br><br><br><br>
+    <input type="hidden" id="refreshed" value="no">
+
+    <p><a href='/logout' style="float:right;color:white;"><b>Logout</b></a>&emsp;&emsp;</p>
+
+    <script type="text/javascript">
+	   onload=function(){
+	   var e=document.getElementById("refreshed");
+	   if(e.value=="no")e.value="yes";
+	   else{e.value="no";location.reload();}
+	}
+    </script>
+    <div class="login-screen">
+        {% if error %}
+                <p class="error" style="color:blue;"><center><strong>Error:</strong> {{ error }}</center></p>
+        {% endif %}
+        <div class="radio_btns" id="parameter_options">
+            <label>Any additional Query parameters ??</label>
+            <input value="1" type="radio" name="formselector" onclick="displayForm(this)" style="display: inline-block;"><label>Yes</label>
+            <input value="2" type="radio" name="formselector" onclick="displayForm(this)" style="display: inline-block;"><label>No</label><br/>
+        </div>
+
+	   <form id = "form1" action = "/parameter" method = "POST" onsubmit = "return validateForm()">
+	       <div class="form-wrapper" id="wrapper">
+                <div class="date1" id="date1" style="display:none">
+
+    		      <div class="wallet_ip">
+
+    		          {% if date %}		
+        		          <input type="hidden" name="date" form = "form1" class="date" value="{{date}}"/><br/>
+    		          {% endif %}
+    		          {% if date1 %}
+        		          <input type="hidden" name="date1" class="date1" form = "form1" value="{{date1}}"/><br/>
+    		          {% endif %}   			
+		              <input type="checkbox" name="wallet_op" id="wallet_op" value="wallet_id" form = "form1"> <label>wallet_id &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label> 
+		              <input name="wallet_id" type="text" id="wallet_id1" size="1" form = "form1"><br/><br/>	
+		              <input type="checkbox" name="product_op" id="product_op" value="product" form = "form1"> <label>product &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+		              <input name="product" type="text" id="product" size="1" form = "form1"><br/><br/>
+		              <input type="checkbox" name="Transid_op" id="Transid_op" value="product" form = "form1"> <label>Transaction ID &emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;</label>
+                        <input name="Transid" type="text" id="Transid" size="1" form = "form1"><br/><br/>
+			         <input type="checkbox" name="saledatekey_op" id="saledatekey_op" form = "form1"> <label>SaleDate Key &emsp;&emsp;&emsp;&emsp;&emsp;</label>
+                    <input name="saledatekey" type="text" id="saledatekey" size="1" form = "form1"><br/><br/>
+			         <input type="checkbox" name="mdn_op" id="mdn_op" form = "form1"> <label>MDN &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&emsp;</label>
+                <input name="mdn" type="text" id="mdn" size="1" form = "form1"><br/><br/>
+                <!--<input type="checkbox" name="saledate_op"  form = "form1"> <label>SaleDate &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
+                <input name="saledate" type="text" id="saledate" size="1" form = "form1"><br/><br/>
+			         <input type="checkbox" name="trans_no_op" id="trans_no_op" form = "form1"> <label>Transaction Number &emsp;&emsp;</label>
+                <input name="trans_no" type="text" id="trans_no" size="1" form = "form1"><br/><br/>-->
+		              <input type="submit" value="submit"  class="wallet-btn btn-primary btn-large btn-block" form = "form1" onclick="return validateForm()">
+
+	           
+	               </div>
+	           </div>
+            </div>
+        </form>
+	   <div id="o_submit" style="display:none">
+	       <form id = "form3" action = "/no_parameters" method = "POST">
+
+                {% if date %}
+                    <input type="hidden" name="date" form = "form3" class="date" value="{{date}}"/><br/>
+                {% endif %}</br>
+                {% if date1 %}
+                    <input type="hidden" name="date1" class="date1" form = "form3" value="{{date1}}"/><br/>
+                {% endif %}</br>                
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<input type="submit" value="submit" name = "submit"  class="wallet-btn btn-primary btn-large btn-block" form = "form3">
+		          <br/><br/>
+            </form>
+	   </div>  
+    </div>
+
+
+{% endblock %}
+

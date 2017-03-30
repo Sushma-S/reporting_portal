@@ -1,0 +1,158 @@
+{% block head %}
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="static/style_ox.css" type="text/css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+  <script>
+
+    $(document).ready(function() {
+
+        $("#from_date1").datepicker({ dateFormat: 'dd/mm/yy' }).val();
+      
+        $("#to_date1").datepicker({ dateFormat: 'dd/mm/yy' }).val();
+    });
+
+  </script>
+
+
+  <script type="text/javascript"> 
+
+    function displayForm(c){ 
+
+      if(c.value == "1"){ 
+        document.getElementById("date").style.visibility='visible'; 
+			  document.getElementById("r2").style.visibility='hidden'; 
+			  document.getElementById("r3").style.visibility='hidden'; 
+			  document.getElementById("r4").style.visibility='hidden';
+			  document.getElementById("r5").style.visibility='hidden';  
+      }
+      else if(c.value =="2"){ 
+        document.getElementById("date").style.visibility='visible';
+			 document.getElementById("r1").style.visibility='hidden'; 
+        document.getElementById("r3").style.visibility='hidden'; 
+        document.getElementById("r4").style.visibility='hidden';
+        document.getElementById("r5").style.visibility='hidden'; 
+      } 
+
+      else if(c.value =="3"){ 
+          document.getElementById("date").style.visibility='visible';
+				  document.getElementById("r2").style.visibility='hidden'; 
+          document.getElementById("r1").style.visibility='hidden'; 
+          document.getElementById("r4").style.visibility='hidden';
+          document.getElementById("r5").style.visibility='hidden'; 
+      }
+
+      else if(c.value =="4"){ 
+        document.getElementById("date").style.visibility='visible';
+			  document.getElementById("r2").style.visibility='hidden'; 
+        document.getElementById("r3").style.visibility='hidden'; 
+        document.getElementById("r1").style.visibility='hidden';
+        document.getElementById("r5").style.visibility='hidden'; 
+      } 
+
+      else if(c.value =="5"){ 
+        document.getElementById("date").style.visibility='visible';
+				document.getElementById("r2").style.visibility='hidden'; 
+        document.getElementById("r3").style.visibility='hidden'; 
+        document.getElementById("r4").style.visibility='hidden';
+        document.getElementById("r1").style.visibility='hidden'; 
+      }
+
+      else{
+
+      } 
+
+    }
+    function validate_radio()
+    {
+      var op1 = document.getElementById("RO-Transaction"); 
+      var op2 = document.getElementById("Sales");
+      var op3 = document.getElementById("Reconcillation"); 
+      var op4 = document.getElementById("Transaction-4");
+      var op5 = document.getElementById("Transaction-5");
+
+        if(op1.checked == false && op2.checked == false && op3.checked == false && op4.checked == false && op5.checked == false)
+        { 
+          alert("Please select one of the option!!");
+          return false;
+        }
+        if(document.getElementById("from_date1").value == "" && document.getElementById("to_date1").value == "")
+        {
+          alert("Please input start date and end date!!!");
+          return false;
+        }
+        if(document.getElementById("from_date1").value != "" && document.getElementById("to_date1").value == "")
+        {
+          alert("Please input start date and end date!!!");
+          return false;
+        }
+        if(document.getElementById("from_date1").value == "" && document.getElementById("to_date1").value != "")
+        {
+          alert("Please input start date and end date!!!");
+          return false;
+        }
+        return true;
+    }
+  </script>
+
+{% endblock %}
+
+{% block body %}
+  <div><img src="static/images/oxigen-wallet1.gif" alt="logo" style="width:150px;height:50px;float:right;"/></div><br><br><br><br>
+  <input type="hidden" id="refreshed" value="no">
+  <p class="user" style="float: left;color:white;"><strong>{{ user }}</strong></p>
+  <p><a href='/logout' style="float:right;color:white;"><b>Logout</b></a>&emsp;&emsp;</p>
+  <script type="text/javascript">
+    onload=function(){
+    var e=document.getElementById("refreshed");
+    if(e.value=="no")e.value="yes";
+    else{e.value="no";location.reload();}
+    }
+  </script>
+  <div class="login-screen">
+
+    {% if error %}
+      <p class="error"><center><strong>Error:</strong>{{ error }}</center></p>
+    {% endif %}
+
+    <center> <h1> Transaction Details </h1> </center>
+    <br/></br>
+
+    <form action = "/date" method = "POST" onsubmit="return validate_radio()">
+
+    <div class="form-wrapper" id="wrapper">
+      <div class="radio_btns" id="first">
+        <div id="r1">
+          <input value="1" type="radio" name="formselector" id="RO-Transaction" onclick="displayForm(this)">RO-Transaction Report &nbsp;</label><br /><br />
+        </div>
+        <div id='r2'>
+          <input value="2" type="radio" name="formselector" id="Sales" onclick="displayForm(this)">Sales Summary &nbsp;</label></br /><br />
+        </div>
+        <div id="r3">
+          <input value="3" type="radio" name="formselector" id="Reconcillation" onclick="displayForm(this)">Reconcillation Summary &nbsp;</label><br /><br />
+        </div>
+        <div id="r4">
+          <input value="4" type="radio" name="formselector" id="Transaction-4" onclick="displayForm(this)">Transaction-4 &nbsp;</label><br /><br />
+        </div>
+        <div id="r5">
+          <input value="5" type="radio" name="formselector" id="Transaction-5" onclick="displayForm(this)">Transaction-5 &nbsp;</label><br /><br />
+        </div>
+      </div>
+  
+      <div class="date" id="date" style="visibility:hidden">
+
+        <h4> Select Start_Date: <input type = "text" id='from_date1' name = "start_date" placeholder = "dd/mm/yyyy"> </h4>
+        <h4> Select End_Date: &nbsp;<input type = "text" id='to_date1' name = "end_date" placeholder = "dd/mm/yyyy"> </h4>
+      
+      </div>
+      <div><input type = "submit" value = "submit" name = "submit" class="sbtn btn-primary btn-large btn-block">
+      </div>
+    </div>
+    </form>
+  </div>
+
+{% endblock %}
+

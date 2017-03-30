@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="static/style_ox.css" type="text/css">
+<script type="text/javascript"> 
+
+    function validate_radio()
+    {
+    	var op1 = document.getElementById("options1"); 
+    	var op2 = document.getElementById("options2"); 
+
+      	if(op1.checked == false && op2.checked == false)
+      	{ 
+         	alert("Please select one of the option!!");
+         	return false;
+      	}
+      	return true;
+    }
+</script>
+
+{% block body %}
+	<div>
+		<img src="static/images/oxigen-wallet1.gif" alt="logo" style="width:150px;height:50px;float:right;"/><br><br><br>
+ 	</div>	
+	<div class="login">
+		<div class="login-screen" style="position: absolute;width: 90%;left: 0;margin-left: 40px;">
+		<p> <a style="float:right;" href="/logout"><b>Logout</b></a></p>
+			<form action = "/app_option" method = "POST" onsubmit="return validate_radio()">
+				<table>
+					<tr>
+						<th><input type="radio" name="options" id="options1" value="Azure"> azure </input></th>
+						<th><input type="radio" name="options" id="options2" value="On_prem"> on_prem&emsp;&emsp;&emsp;&emsp;</input></th>
+ 						<th>
+ 							<input type="submit" id="submit" name="submit" value="submit" class="sbtn btn-primary btn-large btn-block" onclick="return validate_radio()">
+ 						</th>
+ 					</tr>
+ 				</table>					
+ 			</form>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<link rel="stylesheet" href="static/style_ox.css" type="text/css">
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+<script type=text/javascript>
+function display()
+{
+	var errorr='{{error}}';
+	if(errorr!="")
+	{
+	alert("Error:"+errorr);
+	return false;
+	}
+	return true
+}
+</script>
+
+{% block body %}
+ <img src="static/images/oxigen-wallet1.gif" alt="logo" style="width:150px;height:50px;float:right;"/>
+<!--{% if session['logged_in'] %}
+
+<p>You're logged in already!</p>
+
+{% else %}-->
+{% if error %}
+      <!--<center><p class="error" style="color: white;"><strong>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Error:</strong> {{ error }}</p></center>-->
+      <center><p class="error" style="color: white;"></p></center>
+	      <marquee scrollamount="17"><p style="color: black;background-color: red;"> {{error}}</p></marquee>
+{% endif %}
+ <!---->
+ <h3>
+ <marquee scrollamount="17"><p style="color: black;background-color: red;"> Welcome to Data Science Reporting Portal!!!! Please use the application responsibly. If not, your access will be revoked.</p> </marquee>
+ </h3><!-->
+
+<form action="/login" method="POST" onsubmit="return display()">
+	
+	<div class="login">
+		<div class="login-screen">
+			<div class="app-title">
+				<h1>Login</h1>
+			</div>
+ 
+			<div class="login-form">
+				<div class="control-group">
+				<input type="text" class="login-field" value="" placeholder="username" name="username">
+				<i class="fa fa-user"></i>
+				<label class="login-field-icon fui-user" for="login-name"></label>
+				
+				</div>
+ 
+				<div class="control-group">
+				<input type="password" class="login-field" value="" placeholder="password" name="password">
+				<i class="fa fa-lock"></i>
+				<label class="login-field-icon fui-lock" for="login-pass"></label>
+
+				</div>
+ 
+                <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+			    <br>
+			</div>
+		</div>
+	</div>
+</form>
+ 
+{% endif %}
+{% endblock %}
+
